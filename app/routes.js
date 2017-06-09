@@ -28,6 +28,8 @@ router.get('/api/contacts', mainController.allContacts);
 //     // res.send(JSON.stringify(contacts));
 // });
 
+
+//gell all contacts
 router.get('/api/contacts/:id', mainController.oneContact);
 
 
@@ -45,5 +47,16 @@ router.get('/api/contacts/:id', mainController.oneContact);
 // // define routes
 // router.get('/', mainController.showHome);
 
+
+// post a contacts 
 router.post('/api/contacts', mainController.postContact);
 
+
+
+//update contact
+
+router.put('/api/contacts/:id', mainController.editContact);
+
+//delete one id 
+
+router.delete('/api/contacts/:id', mainController.deleteContact);
