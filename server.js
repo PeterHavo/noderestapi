@@ -6,7 +6,9 @@ app = express();
 
 //setup app
 
-
+// in order to get data from angular app I have to configure 
+//our app to use body parser json sending to urlencoded 
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
