@@ -4,10 +4,10 @@ Schema = mongoose.Schema;
 // create schema 
 const contactSchema = new Schema({
 
-  fisrt_name:{type:String, required:true},
-  last_name:{type:String, required:true},
-  email:{type:String, required:true},
-  web:{type:String, required:true}
+  fisrt_name:{type:String},
+  last_name:{type:String},
+  email:{type:String},
+  web:{type:String}
 
 
 });

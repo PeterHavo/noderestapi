@@ -1,5 +1,6 @@
 //const contacts = require('../../data.js'),
-Contact = require('../model/Contact.js');
+const Contact = require('../model/Contact.js');
+const mongoose = require('mongoose');
 
 
 module.exports = {
@@ -11,19 +12,44 @@ module.exports = {
 }
 
 function allContacts(req, res) {
+    Contact.find({}, (err, contacts)=>{
+        if (err){
+            res.status(404).json({message:'there are no contats '});
+        }
+        res.json(contacts);
+    })
     
-    if (!contacts) { res.status(404).json({ message: 'No contacts found ' }); }
-    res.json(contacts);
 
 }
 
 function oneContact(req, res) {
-    const reqId = req.params.id;
-    let contact = contacts.filter(cont => {
-        return cont.id == reqId
-    })
-    if (!contact.length > 0) { res.status(404).json({ message: 'This  contact found ' }); }
-    res.json(contact[0]);
+
+  const _id = req.params.cont;
+ 
+  Contact.findOne({_id}, (err, contact)=>{
+      if (err){
+      res.status(404).json({message: 'that was an error during searh'});
+    }
+
+   else {
+       res.json(contact);
+     console.log(contact);
+   }
+
+     
+  })
+
+ 
+  
+  
+   
+    // Contact.findOne({_id:  idString},(err, contact)=>{
+    //     if (err)
+    //        throw err ; 
+        
+    //         res.json(contact);
+    //     }
+    // );
 }
 
 function postContact(req, res) {
@@ -51,12 +77,12 @@ function postContact(req, res) {
 
 function editContact(req, res) {
     let reqContact = req.params.id;
-    let contact = contacts.filter(cont => {
+    let contact = Contact.filter(cont => {
         return cont.id == reqContact
     })[0];
     console.log(contact);
     // find index of contact 
-    const index = contacts.indexOf(contact);
+    const index = Contact.indexOf(contact);
     // get all keys 
     const keys = Object.keys(req.body);
     //loop troght all keys and set to req.body
@@ -65,8 +91,8 @@ function editContact(req, res) {
     })
 
     // update selected conatct in contacts
-    contacts[index] = contact; 
-    res.json(contacts[index]);
+   Contact[index] = contact; 
+    res.json(Contact[index]);
 
 
 

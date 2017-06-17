@@ -2,6 +2,7 @@
 
 // create a new express router
 const express = require('express'),
+  mongoose = require('mongoose'),
   mainController = require('./controllers/main.controller.js'),
   router = express.Router(),
   contacts = require('../data.js');
@@ -30,7 +31,7 @@ router.get('/api/contacts', mainController.allContacts);
 
 
 //gell all contacts
-router.get('/api/contacts/:id', mainController.oneContact);
+router.get('/api/contacts/:cont', mainController.oneContact);
 
 
 
@@ -55,8 +56,15 @@ router.post('/api/contacts', mainController.postContact);
 
 //update contact
 
-router.put('/api/contacts/:id', mainController.editContact);
+router.put('/api/contacts/edit/:id', mainController.editContact);
 
 //delete one id 
 
 router.delete('/api/contacts/:id', mainController.deleteContact);
+
+
+//test route 
+router.get('/api/test/:test', (req, res)=>{
+    
+    res.send(req.params.test);
+})

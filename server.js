@@ -1,5 +1,5 @@
 
-Contact = require('./app/model/Contact.js');
+ const Contact = require('./app/model/Contact.js');
 require('dotenv').config();
 
 const express = require('express'),
@@ -8,7 +8,7 @@ cors    = require('cors'),
 mongoose = require('mongoose'),
 uriUtil = require('mongodb-uri'),
 bodyParser = require('body-parser');
-app = express();
+const app = express();
 
 
 const mongooseUri = uriUtil.formatMongoose(process.env.DB_URI);
@@ -29,22 +29,21 @@ app.use(cors());
 
 
 //set the routes 
-//app.use(require('./app/routes.js'));
+app.use(require('./app/routes.js'));
 
-app.post('/api/contacts', (req,res)=>{
-    console.log('post to ');
-    let newContact = new Contact (req.body);
-    // contacts.push(newContact);
-    newContact.save((err, contact)=>{
-        if (err)
-            throw err;
+// app.post('/api/contacts', (req,res)=>{
+//     console.log('post to ');
+//     let newContact = new Contact (req.body);
+//     // contacts.push(newContact);
+//     newContact.save((err, contact)=>{
+//         if (err)
+//             throw err;
         
-          res.json(contact);  
+//           res.json(contact);  
 
-    })
-    // res.json(newContact);
-})
-
+//     })
+//     // res.json(newContact);
+// })
 
 
 
