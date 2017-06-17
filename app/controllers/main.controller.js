@@ -1,4 +1,6 @@
-contacts = require('../../data.js');
+//const contacts = require('../../data.js'),
+Contact = require('../model/Contact.js');
+
 
 module.exports = {
     allContacts: allContacts,
@@ -9,6 +11,7 @@ module.exports = {
 }
 
 function allContacts(req, res) {
+    
     if (!contacts) { res.status(404).json({ message: 'No contacts found ' }); }
     res.json(contacts);
 
@@ -24,16 +27,25 @@ function oneContact(req, res) {
 }
 
 function postContact(req, res) {
-    const newContact = {
-        id: contacts.length + 1,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
-        website: req.body.website
-    }
 
-    contacts.push(newContact);
-    res.json(newContact);
+
+    // const newContact = {
+    //     id: contacts.length + 1,
+    //     first_name: req.body.first_name,
+    //     last_name: req.body.last_name,
+    //     email: req.body.email,
+    //     website: req.body.website
+    // }
+  let newContact = new Contact (req.body);
+    // contacts.push(newContact);
+    newContact.save((err, contact)=>{
+        if (err)
+            throw err;
+        
+          res.json(contact);  
+
+    })
+    // res.json(newContact);
 }
 
 
