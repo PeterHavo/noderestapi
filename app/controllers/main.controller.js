@@ -1,6 +1,6 @@
 //const contacts = require('../../data.js'),
 const Contact = require('../model/Contact.js');
-const mongoose = require('mongoose');
+
 
 
 module.exports = {
@@ -40,28 +40,11 @@ function oneContact(req, res) {
   })
 
  
-  
-  
-   
-    // Contact.findOne({_id:  idString},(err, contact)=>{
-    //     if (err)
-    //        throw err ; 
-        
-    //         res.json(contact);
-    //     }
-    // );
 }
 
 function postContact(req, res) {
 
 
-    // const newContact = {
-    //     id: contacts.length + 1,
-    //     first_name: req.body.first_name,
-    //     last_name: req.body.last_name,
-    //     email: req.body.email,
-    //     website: req.body.website
-    // }
   let newContact = new Contact (req.body);
     // contacts.push(newContact);
     newContact.save((err, contact)=>{
@@ -102,12 +85,13 @@ function editContact(req, res) {
 }
 
 function deleteContact (req, res) {
-    let reqId = req.params.id;
-    let contact = contacts.filter(con => { 
-        return con.id == reqId
-    })[0];
-    const index =  contacts.indexOf(contact);
-    contacts.splice(index, 1);
-    res.json({message:`contact with following ID was deleted:${reqId}`});
+     const _id = req.params.id;
+     Contact.findOneAndRemove({_id},(err, contact)=>{
+         if (err){
+             res.status(404).json(err);
+         }else if(!contact){
+             res.status(404).json({message: 'Can not find contact during deletation '})
+         }
+     })
 
 }
