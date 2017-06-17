@@ -7,91 +7,69 @@ module.exports = {
     allContacts: allContacts,
     oneContact: oneContact,
     postContact: postContact,
-    editContact: editContact,
+    putContact: putContact,
     deleteContact: deleteContact
 }
 
 function allContacts(req, res) {
-    Contact.find({}, (err, contacts)=>{
-        if (err){
-            res.status(404).json({message:'there are no contats '});
+    Contact.find({}, (err, contacts) => {
+        if (err) {
+            res.status(404).json({ message: 'there are no contats ' });
         }
         res.json(contacts);
     })
-    
+
 
 }
 
 function oneContact(req, res) {
 
-  const _id = req.params.cont;
- 
-  Contact.findOne({_id}, (err, contact)=>{
-      if (err){
-      res.status(404).json({message: 'that was an error during searh'});
-    }
+    const _id = req.params.cont;
 
-   else {
-       res.json(contact);
-     console.log(contact);
-   }
+    Contact.findOne({ _id }, (err, contact) => {
+        if (err) {
+            res.status(404).json({ message: 'that was an error during searh' });
+        }
+        else {
+            res.json(contact);
+        }
 
-     
-  })
 
- 
+    });
 }
 
 function postContact(req, res) {
-
-
-  let newContact = new Contact (req.body);
-    // contacts.push(newContact);
-    newContact.save((err, contact)=>{
+    let newContact = new Contact(req.body);
+    newContact.save((err, contact) => {
         if (err)
             throw err;
-        
-          res.json(contact);  
-
-    })
-    // res.json(newContact);
+        res.json(contact);
+    });
 }
 
 
-function editContact(req, res) {
-    let reqContact = req.params.id;
-    let contact = Contact.filter(cont => {
-        return cont.id == reqContact
-    })[0];
-    console.log(contact);
-    // find index of contact 
-    const index = Contact.indexOf(contact);
-    // get all keys 
-    const keys = Object.keys(req.body);
-    //loop troght all keys and set to req.body
-    keys.forEach(key=>{
-        contact[key] = req.body[key];
-    })
+function putContact(req, res) {
+    const _id = req.params.id;
+    Contact.findOneAndUpdate({ _id }, req.body, {new: true}, (err, contact)=>{
+        if (err){
+            res.status(404).json(err);
+        }else{
+            res.json(contact);
+        }
 
-    // update selected conatct in contacts
-   Contact[index] = contact; 
-    res.json(Contact[index]);
-
-
-
-
-
-
+    } );
 }
 
-function deleteContact (req, res) {
-     const _id = req.params.id;
-     Contact.findOneAndRemove({_id},(err, contact)=>{
-         if (err){
-             res.status(404).json(err);
-         }else if(!contact){
-             res.status(404).json({message: 'Can not find contact during deletation '})
-         }
-     })
+function deleteContact(req, res) {
+    const _id = req.params.id;
+    Contact.findOneAndRemove({ _id }, (err, contact) => {
+        if (err) {
+            res.status(404).json(err);
+        } else if (!contact) {
+            res.status(404).json({ message: 'Can not find contact during deletation ' })
+        } else {
+            res.json(`contact with ${_id} was deleted`)
+        }
+    })
 
 }

@@ -2,10 +2,9 @@
 
 // create a new express router
 const express = require('express'),
-  mongoose = require('mongoose'),
   mainController = require('./controllers/main.controller.js'),
-  router = express.Router(),
-  contacts = require('../data.js');
+  router = express.Router();
+ // contacts = require('../data.js');
   
 //   mainController = require('./controllers/main.controller'),
 //   eventController = require('./controllers/events.controller');
@@ -56,7 +55,7 @@ router.post('/api/contacts', mainController.postContact);
 
 //update contact
 
-router.put('/api/contacts/edit/:id', mainController.editContact);
+router.put('/api/contacts/:id', mainController.putContact);
 
 //delete one id 
 
